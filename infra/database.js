@@ -2,6 +2,7 @@ import { Client } from "pg";
 
 async function query(queryObject) {
   let client;
+
   try {
     client = await getNewClient();
     const result = await client.query(queryObject);
@@ -13,6 +14,7 @@ async function query(queryObject) {
     await client.end();
   }
 }
+
 async function getNewClient() {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
@@ -22,13 +24,11 @@ async function getNewClient() {
     password: process.env.POSTGRES_PASSWORD,
     ssl: getSSLValues(),
   });
+
   await client.connect();
+
   return client;
 }
-
-export default {
-  query,
-  getNewClient,
 
 function getSSLValues() {
   if (process.env.POSTGRES_CA) {
@@ -36,5 +36,11 @@ function getSSLValues() {
       ca: process.env.POSTGRES_CA,
     };
   }
+
   return process.env.NODE_ENV === "development" ? false : true;
 }
+
+export default {
+  query,
+  getNewClient,
+};
