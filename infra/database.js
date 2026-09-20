@@ -13,7 +13,9 @@ async function query(queryObject) {
     console.error(error);
     throw error;
   } finally {
-    await client.end();
+    if (client) {
+      await client.end();
+    }
   }
 }
 
@@ -40,9 +42,14 @@ function getSSLValues() {
     };
   }
 
-  return process.env.NODE_ENV === "development" ? false : true;
-}
+  const isLocalDatabase =
+    process.env.POSTGRES_HOST === "localhost" ||
+    process.env.POSTGRES_HOST === "127.0.0.1";
 
+  return isLocalDatabase || process.env.NODE_ENV !== "production"
+    ? false
+    : true;
+}
 // 👇 Exporta as funções aqui
 export default {
   query,
