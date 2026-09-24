@@ -23,7 +23,7 @@ async function status(req, res) {
     values: [databaseName],
   });
   const databaseOpenedConnectionsValue =
-    databaseOpenedConnectionsResult.rows.count;
+    databaseOpenedConnectionsResult.rows[0].count;
 
   res.status(200).json({
     update_at: updateAt,
@@ -31,7 +31,7 @@ async function status(req, res) {
       database: {
         version: databaseVersion,
         max_connections: parseInt(databaseMaxConnectionsValue),
-        openeed_connections: databaseOpenedConnectionsValue,
+        opened_connections: databaseOpenedConnectionsValue,
       },
     },
   });
