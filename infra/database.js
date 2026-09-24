@@ -34,6 +34,12 @@ async function getNewClient() {
   return client;
 }
 
+const database = {
+  query,
+  getNewClient,
+  getSSLValues,
+};
+export default database;
 // 👇 A função fica FORA do export default
 function getSSLValues() {
   if (process.env.POSTGRES_CA) {
@@ -51,8 +57,3 @@ function getSSLValues() {
     : true;
 }
 // 👇 Exporta as funções aqui
-export default {
-  query,
-  getNewClient,
-  getSSLValues,
-};

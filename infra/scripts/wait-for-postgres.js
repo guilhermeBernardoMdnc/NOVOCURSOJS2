@@ -4,7 +4,7 @@ function checkPostgres() {
   exec("docker exec postgres-dev pg_isready", handleReturn);
 }
 
-function handleReturn(error, stdout, stderr) {
+function handleReturn(error, stdout) {
   if (error) {
     console.log("Postgres ainda não está pronto...");
     setTimeout(checkPostgres, 1000);
